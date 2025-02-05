@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from "next/image";
 
 interface Message {
   role: string;
@@ -51,7 +52,7 @@ export default function Home() {
     if (messages[role].length === 0) {
       sendInitialMessage().then(r => console.log(r));
     }
-  }, [role]);
+  }, [role, messages]);
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -135,10 +136,12 @@ export default function Home() {
             className={`flex-grow flex flex-col items-center justify-center ${getRoleColor()} text-white transition-all`}
         >
           <div className="flex flex-col items-center">
-            <img
-                src="https://www.chead.ac.uk/wp-content/uploads/2016/01/UoB-Logo-RGB.png"
-                alt="doctor"
-                className="w-64 h-32 mb-4 drop-shadow-lg"
+            <Image
+                src={"/bolton-banner.png"}
+                alt={"doctor"}
+                width={500}
+                height={500}
+                className={"w-64 h-32 mb-4 drop-shadow-lg"}
             />
             <h1 className="text-5xl font-extrabold mb-6 text-black">
               Doctor AI Chat
