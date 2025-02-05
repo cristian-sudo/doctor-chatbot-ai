@@ -17,6 +17,7 @@ export default function Home() {
   const [role, setRole] = useState("eye doctor");
   const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const roles = [
@@ -27,6 +28,7 @@ export default function Home() {
 
   const handleRoleClick = (roleValue: string) => {
     setRole(roleValue);
+    setIsMenuOpen(false);
   };
 
   const getRoleColor = () => {
@@ -112,15 +114,14 @@ export default function Home() {
   };
 
   return (
-      <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <div className="w-1/4 bg-gray-800 text-white flex flex-col items-center py-8 space-y-4">
-          <h2 className="text-xl font-bold mb-4">Select Role</h2>
+      <div className="flex flex-col md:flex-row min-h-screen">
+        <div className={`bg-gray-800 text-white md:w-1/4 md:flex md:flex-col md:items-center md:py-8 md:space-y-4 ${isMenuOpen ? 'block' : 'hidden'} md:block`}>
+          <h2 className="text-xl font-bold mb-4 md:mb-0">Select Role</h2>
           {roles.map((roleItem) => (
               <button
                   key={roleItem.value}
                   onClick={() => handleRoleClick(roleItem.value)}
-                  className={`w-3/4 p-3 rounded-lg text-center font-semibold transition-all ${
+                  className={`w-full md:w-3/4 p-3 rounded-lg text-center font-semibold transition-all ${
                       role === roleItem.value
                           ? `${roleItem.color} text-black shadow-lg`
                           : "bg-gray-700 hover:bg-gray-600"
@@ -131,7 +132,13 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Main Content */}
+        <div className="md:hidden flex justify-between items-center bg-gray-800 p-4">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+        </div>
         <div
             className={`flex-grow flex flex-col items-center justify-center ${getRoleColor()} text-white transition-all`}
         >
@@ -148,7 +155,7 @@ export default function Home() {
             </h1>
           </div>
           <div
-              className="bg-gray-900 shadow-lg rounded-xl overflow-hidden w-[700px] h-[400px] flex flex-col"
+              className="bg-gray-900 shadow-lg rounded-xl overflow-hidden w-[90%] max-w-[700px] h-[400px] flex flex-col"
           >
             <div className="p-4 flex-grow overflow-y-auto">
               {messages[role].map((message, index) => (
@@ -162,7 +169,8 @@ export default function Home() {
                         <div className="flex-shrink-0 mr-2">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" stroke="#fff"
                                className="cf-icon-svg" viewBox="-2.5 0 19 19"><path
-                              d="M11.56 10.11v2.046a3.827 3.827 0 1 1-7.655 0v-.45A3.61 3.61 0 0 1 .851 8.141V5.25a1.682 1.682 0 0 1 .763-1.408 1.207 1.207 0 1 1 .48 1.04.571.571 0 0 0-.135.368v2.89a2.5 2.5 0 0 0 5 0V5.25a.57.57 0 0 0-.108-.334 1.208 1.208 0 1 1 .533-1.018 1.681 1.681 0 0 1 .683 1.352v2.89a3.61 3.61 0 0 1-3.054 3.565v.45a2.719 2.719 0 0 0 5.438 0V10.11a2.144 2.144 0 1 1 1.108 0zm.48-2.07a1.035 1.035 0 1 0-1.035 1.035 1.037 1.037 0 0 0 1.036-1.035z"/></svg>
+                              d="M11.56 10.11v2.046a3.827 3.827 0 1 1-7.655 0v-.45A3.61 3.61 0 0 1 .851 8.141V5.25a1.682 1.682 0 0 1 .763-1.408 1.207 1.207 0 1 1 .48 1.04.571.571 0 0 0-.135.368v2.89a2.5 2.5 0 0 0 5 0V5.25a.57.57 0 0 0-.108-.334 1.208 1.208 0 1 1 .533-1.018 1.681 1.681 0 0 1 .683 1.352v2.89a3.61 3.61 0 0 1-3.054 3.565v.45a2.719 2.719 0 0 0 5.438 0V10.11a2.144 2.144 0 1 1 1.108 0zm.48-2.07a1.035 1.035 0 1 0-1.035 1.035 1.037 1.037 0 0 0 1.036-1.035z"/>
+                          </svg>
                         </div>
                     )}
                     <div className="flex flex-col">
